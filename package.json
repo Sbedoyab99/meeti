@@ -1,0 +1,31 @@
+{
+  "name": "meeti",
+  "version": "1.0.0",
+  "description": "Clon de MeetUp desarrollado con Node, PostgreSQL y EJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sbedoyab99/meeti.git"
+  },
+  "author": "Santiago Bedoya",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sbedoyab99/meeti/issues"
+  },
+  "homepage": "https://github.com/Sbedoyab99/meeti#readme",
+  "devDependencies": {
+    "eslint": "^8.44.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^16.0.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "nodemon": "^2.0.22"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2"
+  }
+}
