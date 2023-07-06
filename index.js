@@ -4,11 +4,11 @@ import dotenv from 'dotenv'
 import router from './routes/index.js'
 import expressEjsLayouts from 'express-ejs-layouts'
 import db from './config/db.js'
-import Usuario from './models/Usuario.js'
 import bodyParser from 'body-parser'
 import flash from 'connect-flash'
 import session from 'express-session'
 import cookieParser from 'cookie-parser'
+import passport from './config/passport.js'
 // Conectar a la base de datos
 db.sync().then(() => {
   console.log('Se conecto correctamente a la DB')
@@ -33,6 +33,9 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }))
+// Habilitar passport
+app.use(passport.initialize())
+app.use(passport.session())
 // Habilitar flash messages
 app.use(flash())
 // Habilitar EJS como template engine
