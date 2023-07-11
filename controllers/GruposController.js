@@ -4,6 +4,9 @@ import Grupo from '../models/Grupo.js'
 import { v4 as uuidv4 } from 'uuid'
 import upload from '../config/multer.js'
 import multer from 'multer'
+import path from 'path'
+import { fileURLToPath } from 'url'
+import { unlink } from 'fs'
 
 const subirImagen = (req, res, next) => {
   upload(req, res, function (error) {
@@ -79,10 +82,77 @@ const editarGrupo = async (req, res) => {
   res.redirect('/admin')
 }
 
+const formEditarImagen = async (req, res) => {
+  const grupo = await Grupo.findByPk(req.params.grupoId)
+  res.render('imagen-grupo', {
+    nombrePagina: `Editar Imagen Grupo: ${grupo.nombre}`,
+    grupo
+  })
+}
+
+const editarImagen = async (req, res, next) => {
+  const grupo = await Grupo.findOne({ where: { id: req.params.grupoId, usuarioId: req.user.id } })
+  if (!grupo) {
+    req.flash('error', 'Operacion no Valida')
+    return res.redirect('/administracion')
+  }
+  if (grupo.imagen && req.file) {
+    const __dirname = path.dirname(fileURLToPath(import.meta.url))
+    const imagenAnteriorPath = path.join(__dirname, '..', `public/uploads/grupos/${grupo.imagen}`)
+    unlink(imagenAnteriorPath, (error) => {
+      if (error) {
+        return console.log(error)
+      }
+    })
+  }
+  if (req.file) {
+    grupo.imagen = req.file.filename
+  }
+  await grupo.save()
+  req.flash('exito', 'Cambios almacenados correctamente')
+  res.redirect('/admin')
+}
+
+
+const formEliminarGrupo = async (req, res) => {
+  const grupo = await Grupo.findOne({ where: { id: req.params.grupoId, usuarioId: req.user.id } })
+  if (!grupo) {
+    req.flash('error', 'Operacion no Valida')
+    return res.redirect('/admin')
+  }
+  res.render('eliminar-grupo', {
+    nombrePagina: `Eliminar Grupo: ${grupo.nombre}`
+  })
+}
+
+const eliminarGrupo = async (req, res, next) => {
+  const grupo = await Grupo.findOne({ where: { id: req.params.grupoId, usuarioId: req.user.id } })
+  if (!grupo) {
+    req.flash('error', 'Operacion no Valida')
+    return res.redirect('/administracion')
+  }
+  if (grupo.imagen) {
+    const __dirname = path.dirname(fileURLToPath(import.meta.url))
+    const imagenPath = path.join(__dirname, '..', `public/uploads/grupos/${grupo.imagen}`)
+    unlink(imagenPath, (error) => {
+      if (error) {
+        return console.log(error)
+      }
+    })
+  }
+  await grupo.destroy()
+  req.flash('exito', 'Grupo Eliminado.')
+  res.redirect('/admin')
+}
+
 export {
   formNuevoGrupo,
   nuevoGrupo,
   subirImagen,
   formEditarGrupo,
-  editarGrupo
+  editarGrupo,
+  formEditarImagen,
+  editarImagen,
+  formEliminarGrupo,
+  eliminarGrupo
 }

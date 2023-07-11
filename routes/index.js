@@ -3,7 +3,7 @@ import { home } from '../controllers/HomeController.js'
 import { formCrearCuenta, crearCuenta, confirmarCuenta, formIniciarSesion } from '../controllers/UsuariosController.js'
 import { autenticarUsuario, isAuth } from '../controllers/AuthController.js'
 import { admin } from '../controllers/AdminController.js'
-import { formNuevoGrupo, nuevoGrupo, subirImagen, formEditarGrupo, editarGrupo } from '../controllers/GruposController.js'
+import { formNuevoGrupo, nuevoGrupo, subirImagen, formEditarGrupo, editarGrupo, formEditarImagen, editarImagen, formEliminarGrupo, eliminarGrupo } from '../controllers/GruposController.js'
 // Creo el router
 const router = express.Router()
 // Home
@@ -24,5 +24,13 @@ router.post('/nuevo-grupo', isAuth, subirImagen, nuevoGrupo)
 // Editar Grupo
 router.get('/editar-grupo/:grupoId', isAuth, formEditarGrupo)
 router.post('/editar-grupo/:grupoId', isAuth, editarGrupo)
+// Editar imagen grupo
+router.get('/imagen-grupo/:grupoId', isAuth, formEditarImagen)
+router.post('/imagen-grupo/:grupoId', isAuth, subirImagen, editarImagen)
+// Eliminar Grupos
+router.get('/eliminar-grupo/:grupoId', isAuth, formEliminarGrupo)
+router.post('/eliminar-grupo/:grupoId', isAuth, eliminarGrupo)
+// Crear Meeti
+router.get('/nuevo-meeti', isAuth)
 
 export default router
