@@ -1,7 +1,11 @@
+import Grupo from '../models/Grupo.js'
 
-const admin = (req, res) => {
+
+const admin = async (req, res) => {
+  const grupos = await Grupo.findAll({ where: { usuarioId: req.user.id } })
   res.render('administracion', {
-    nombrePagina: 'Administracion'
+    nombrePagina: 'Administracion',
+    grupos
   })
 }
 

@@ -49,37 +49,23 @@
   </div>
   <div class="seccion-admin">
     <h2>Tus Grupos</h2>
-    <ul>
-      <li>
-        <div class="informacion-admin">
-          <h3>Juniors Medellin</h3>
-        </div>
-        <div class="contenedor-botones">
-          <a href="#" class="btn btn-verde">Editar</a>
-          <a href="#" class="btn btn-azul2">Imagen</a>
-          <a href="#" class="btn btn-rojo">Eliminar</a>
-        </div>
-      </li>
-      <li>
-        <div class="informacion-admin">
-          <h3>Seniors Medellin</h3>
-        </div>
-        <div class="contenedor-botones">
-          <a href="#" class="btn btn-verde">Editar</a>
-          <a href="#" class="btn btn-azul2">Imagen</a>
-          <a href="#" class="btn btn-rojo">Eliminar</a>
-        </div>
-      </li>
-      <li>
-        <div class="informacion-admin">
-          <h3>Trainees Medellin</h3>
-        </div>
-        <div class="contenedor-botones">
-          <a href="#" class="btn btn-verde">Editar</a>
-          <a href="#" class="btn btn-azul2">Imagen</a>
-          <a href="#" class="btn btn-rojo">Eliminar</a>
-        </div>
-      </li>
-    </ul>
+    <% if(grupos.length) { %>
+      <ul>
+        <% grupos.forEach(grupo => { %>
+          <li>
+            <div class="informacion-admin">
+              <h3><%= grupo.nombre %></h3>
+            </div>
+            <div class="contenedor-botones">
+              <a href="/editar-grupo/<%= grupo.id %>" class="btn btn-verde">Editar</a>
+              <a href="/imagen-grupo/<%= grupo.id %>" class="btn btn-azul2">Imagen</a>
+              <a href="/eliminar-grupo/<%= grupo.id %>" class="btn btn-rojo">Eliminar</a>
+            </div>
+          </li>
+        <% }) %>
+      </ul>
+    <% } else { %>
+      <p>Aún no tienes grupos. <a href="/nuevo-grupo"><b>Crea el primero!</b></a></p>
+    <% } %>
   </div>
 </main>
